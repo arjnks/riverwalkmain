@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
     });
 
-    const magneticBtns = document.querySelectorAll('.btn');
+    const magneticBtns = document.querySelectorAll('.btn, .cs-socials a, .social-link');
     magneticBtns.forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
             const rect = btn.getBoundingClientRect();
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // Split h1 text into words, then chars to prevent awkward line breaks
     const heroTitle = document.querySelector('h1');
-    if (heroTitle) {
+    if (heroTitle && !heroTitle.classList.contains('cs-brand')) {
         const text = heroTitle.innerText;
         heroTitle.innerHTML = '';
         let charIndex = 0;

@@ -7,12 +7,17 @@
    :root {
        /* Ultra Dark Theme */
        --primary: #0a0a0a;
-       --accent: #C5A880; /* Champagne Gold */
+       --accent: #79989A; /* Oxidized Copper */
        --bg-light: #111111;
        --text: #f0f0f0;
        --text-light: #888888;
        --white: #ffffff;
        --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+   }
+
+   ::selection {
+       background-color: var(--accent);
+       color: var(--primary);
    }
    
       /* Custom Cursor */
@@ -26,7 +31,7 @@
         top: 0; left: 0;
         width: 50vw; height: 50vw;
         max-width: 800px; max-height: 800px;
-        background: radial-gradient(circle, rgba(197, 168, 128, 0.08) 0%, rgba(197, 168, 128, 0) 60%);
+        background: radial-gradient(circle, rgba(121, 152, 154, 0.08) 0%, rgba(121, 152, 154, 0) 60%);
         border-radius: 50%;
         transform: translate(-50%, -50%);
         pointer-events: none;
@@ -82,7 +87,7 @@
        left: 0;
        transform: translate(-50%, -50%);
        border-radius: 50%;
-       z-index: 9999;
+       z-index: 99999999;
        pointer-events: none;
    }
    
@@ -117,13 +122,24 @@
        color: var(--text);
        font-family: 'Poppins', sans-serif;
        -webkit-font-smoothing: antialiased;
-       scrollbar-width: none; /* Firefox */
-       -ms-overflow-style: none; /* IE and Edge */
-   }
-   
-   html::-webkit-scrollbar, body::-webkit-scrollbar {
-       display: none; /* Chrome, Safari, Opera */
-   }
+        scrollbar-width: thin; /* Firefox */
+        scrollbar-color: rgba(121, 152, 154, 0.3) var(--primary); /* Firefox */
+    }
+    
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--primary);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: rgba(121, 152, 154, 0.3); /* Transparent accent copper */
+        border-radius: 3px;
+        transition: background 0.3s;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: var(--accent);
+    }
    
    #smooth-wrapper {
        width: 100%;
