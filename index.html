@@ -22,11 +22,10 @@
             font-family: 'Poppins', sans-serif;
         }
 
-        /* 1. Intro Section */
         #intro-section {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            height: 100svh;
             background: #000;
             display: flex;
             align-items: center;
@@ -116,7 +115,7 @@
         #pinned-section {
             position: relative;
             width: 100vw;
-            height: 100vh;
+            height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -137,7 +136,7 @@
             position: absolute;
             z-index: 5;
             width: 100vw;
-            height: 100vh; 
+            height: 100svh; 
             background-size: cover;
             background-position: center;
             pointer-events: none;
@@ -290,8 +289,48 @@
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
+        .cursor-outline {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent, #C5A880);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            body, html {
+                cursor: auto;
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important;
+            }
+            .cs-footer {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+                text-align: center;
+            }
+            .cs-socials {
+                align-items: center;
+                text-align: center;
+            }
+            .cs-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            .cs-email {
+                align-items: center;
+            }
+            .micro-text {
+                font-size: 8px;
+            }
+            .micro-top-left { top: 20px; left: 20px; }
+            .micro-top-right { top: 20px; right: 20px; }
         }
     </style>
 </head>
