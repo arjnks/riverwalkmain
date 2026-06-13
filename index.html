@@ -32,21 +32,12 @@
             z-index: 20;
         }
 
-        .cs-brand {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(4rem, 15vw, 15rem);
-            color: var(--white, #fff);
-            font-weight: 400;
-            margin: 0;
-            line-height: 0.8;
-            letter-spacing: -0.05em;
-            text-transform: uppercase;
-        }
-
-        .char {
-            display: inline-block;
-            opacity: 0;
-            will-change: transform, opacity;
+        .cs-brand-img {
+            width: 80vw;
+            max-width: 600px;
+            z-index: 10;
+            will-change: transform, opacity, filter;
+            /* If the PNG is black, you might need: filter: invert(1); */
         }
 
         .cs-brand-container {
@@ -340,7 +331,7 @@
         <div class="micro-text micro-top-left" id="micro-1">SYS.STATUS: ONLINE<br>ENV: LUXURY.BETA</div>
         <div class="micro-text micro-top-right" id="micro-2">COORD: 10.5276° N, 76.2144° E<br>THRISSUR, KERALA</div>
         <div class="cs-brand-container">
-            <h1 class="cs-brand" id="brand-text">RIVERWALK.</h1>
+            <img src="riverwalkpng.png" class="cs-brand-img" id="brand-img" alt="Riverwalk">
         </div>
         <div class="razor-line-container"><div class="razor-line" id="razor-line"></div></div>
     </div>
@@ -409,56 +400,17 @@
             }
         }
         
-        // Wrap logo text in individual characters
-        const brandText = document.getElementById('brand-text');
-        const textStr = brandText.innerText;
-        brandText.innerHTML = '';
-        textStr.split('').forEach(char => {
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char';
-            charSpan.innerHTML = char === ' ' ? '&nbsp;' : char;
-            brandText.appendChild(charSpan);
-        });
-
-        // Scramble Decoder for Micro Text
-        function scrambleText(element) {
-            const targetHTML = element.innerHTML;
-            const chars = '!<>-_\\\\/[]{}—=+*^?#_';
-            let iteration = 0;
-            const cleanText = targetHTML.replace(/<br>/g, '\n');
-            const total = cleanText.length;
-            
-            const interval = setInterval(() => {
-                element.innerText = cleanText.split('').map((letter, index) => {
-                    if(index < iteration) {
-                        return cleanText[index];
-                    }
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join('');
-                
-                element.innerHTML = element.innerText.replace(/\n/g, '<br>');
-                
-                if(iteration >= total) {
-                    clearInterval(interval);
-                    element.innerHTML = targetHTML; 
-                }
-                iteration += 1; // Faster decoding
-            }, 15); // Faster interval
-        }
-
-        scrambleText(document.getElementById('micro-1'));
-        scrambleText(document.getElementById('micro-2'));
-
         // Master Intro Timeline
         const introAnim = gsap.timeline();
-        introAnim.fromTo('.char', {
-            y: 50,
-            opacity: 0
+        introAnim.fromTo('#brand-img', {
+            scale: 1.05,
+            opacity: 0,
+            filter: "blur(20px)"
         }, {
-            y: 0,
+            scale: 1,
             opacity: 1,
-            duration: 0.8,
-            stagger: 0.03,
+            filter: "blur(0px)",
+            duration: 2.5,
             ease: "expo.out"
         })
         .to('#razor-line', {
