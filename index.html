@@ -357,6 +357,12 @@
     </div>
     
     <script>
+        // Force the browser to start at the absolute top
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         // Global Slides Array
         const slides = [
             { src: 'assets/river_walk_events-leo_group-pages-1_p1.webp', name: 'Main Entrance' },
