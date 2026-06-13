@@ -44,17 +44,41 @@
             z-index: 10;
         }
 
-        .micro-text {
-            position: absolute;
+        /* Tactical Header */
+        #tactical-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            box-sizing: border-box;
+            z-index: 1000;
             font-family: 'Courier New', Courier, monospace;
             font-size: 10px;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.4);
-            line-height: 1.5;
-            z-index: 10;
+            color: rgba(255,255,255,0.6);
+            mix-blend-mode: difference;
+            pointer-events: none;
         }
-        .micro-top-left { top: 40px; left: 40px; }
-        .micro-top-right { top: 40px; right: 40px; text-align: right; }
+
+        .th-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .th-link {
+            cursor: pointer;
+            pointer-events: auto;
+            text-decoration: none;
+            color: rgba(255,255,255,0.6);
+            transition: color 0.3s;
+        }
+        
+        .th-link:hover {
+            color: #fff;
+        }
 
         .razor-line-container {
             position: absolute;
@@ -110,7 +134,8 @@
         }
 
         .seq-slide {
-            position: relative;
+            position: sticky;
+            top: 0;
             width: 100vw;
             height: 100svh;
             display: flex;
@@ -118,6 +143,7 @@
             justify-content: center;
             overflow: hidden;
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            transform: translateZ(0); /* Hardware acceleration for sticky */
         }
 
         .seq-image {
@@ -141,6 +167,13 @@
             pointer-events: none;
             mix-blend-mode: difference;
             white-space: nowrap;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), text-shadow 0.4s ease;
+        }
+
+        /* Brutalist Hover Glitch */
+        .seq-slide:hover .seq-text {
+            transform: skewX(-10deg) scale(1.05);
+            text-shadow: 6px 0 0 rgba(255,0,0,0.8), -6px 0 0 rgba(0,255,255,0.8);
         }
 
         #coming-soon-container {
@@ -223,32 +256,17 @@
             border-color: #fff;
         }
 
-        /* Fixed Enquire Button */
-        #fixed-enquire-btn {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            z-index: 100;
-            background: transparent;
-            border: 1px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 10px 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 10px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.3s, color 0.3s, border-color 0.3s;
-            pointer-events: auto;
+        /* Tactical Header Mobile Optimization */
+        @media (max-width: 768px) {
+            #tactical-header {
+                padding: 20px;
+                font-size: 8px;
+            }
+            .th-item:nth-child(2) {
+                display: none; /* Hide temperature on mobile to save space */
+            }
         }
 
-        #fixed-enquire-btn:hover {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-
-        /* Custom Cursor styling */
         .cursor-dot {
             position: fixed;
             width: 8px;
@@ -304,23 +322,16 @@
                 font-size: 12px;
                 width: 90%;
             }
-            .micro-text {
-                font-size: 8px;
-            }
-            .micro-top-left { top: 20px; left: 20px; }
-            .micro-top-right { display: none; /* Hide top right to make room for enquire button */ }
-            
-            #fixed-enquire-btn {
-                top: 20px;
-                right: 20px;
-                padding: 8px 15px;
-                font-size: 9px;
-            }
         }
     </style>
 </head>
 <body>
-    <button id="fixed-enquire-btn" onclick="window.open('https://wa.me/917736728416?text=Hi%2C%20I%27m%20interested%20in%20Leo%20Convention%20Centre', '_blank')">ENQUIRE</button>
+    <header id="tactical-header">
+        <div class="th-item" id="th-time">[ --:-- -- ]</div>
+        <div class="th-item" id="th-temp">[ --°C THRISSUR ]</div>
+        <div class="th-item"><a href="https://wa.me/917736728416?text=Hi%2C%20I%27m%20interested%20in%20Leo%20Convention%20Centre" target="_blank" class="th-link">[ INITIATE INQUIRY ]</a></div>
+    </header>
+
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-outline" id="cursor-outline"></div>
 
@@ -328,8 +339,6 @@
     <div id="intro-section">
         <div id="intro-slideshow"></div>
         <div id="intro-overlay"></div>
-        <div class="micro-text micro-top-left" id="micro-1">SYS.STATUS: ONLINE<br>ENV: LUXURY.BETA</div>
-        <div class="micro-text micro-top-right" id="micro-2">COORD: 10.5276° N, 76.2144° E<br>THRISSUR, KERALA</div>
         <div class="cs-brand-container">
             <img src="riverwalkpng.png" class="cs-brand-img" id="brand-img" alt="Riverwalk">
         </div>
@@ -357,6 +366,28 @@
     </div>
     
     <script>
+        // Tactical Header Logic
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
+            document.getElementById('th-time').innerText = `[ ${timeString} ]`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        async function fetchTemp() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=10.52&longitude=76.21&current_weather=true');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                document.getElementById('th-temp').innerText = `[ ${temp}°C THRISSUR ]`;
+            } catch (e) {
+                console.error('Weather fetch failed, falling back.');
+                document.getElementById('th-temp').innerText = `[ 28°C THRISSUR ]`;
+            }
+        }
+        fetchTemp();
+
         // Force the browser to start at the absolute top
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
