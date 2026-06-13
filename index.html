@@ -177,6 +177,47 @@
             text-shadow: 6px 0 0 rgba(255,0,0,0.8), -6px 0 0 rgba(0,255,255,0.8);
         }
 
+        /* Brutalist Lightbox */
+        #brutalist-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #brutalist-lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #bl-img {
+            max-width: 100vw;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+
+        #bl-close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            z-index: 10;
+            mix-blend-mode: difference;
+        }
+
         #coming-soon-container {
             position: relative;
             width: 100vw;
@@ -362,6 +403,12 @@
         </div>
     </div>
     
+    <!-- 4. BRUTALIST LIGHTBOX -->
+    <div id="brutalist-lightbox">
+        <div id="bl-close">[ CLOSE ]</div>
+        <img id="bl-img" src="" alt="Full view">
+    </div>
+
     <script>
         // Tactical Header Logic
         function updateTime() {
@@ -455,10 +502,20 @@
 
         // --- 2. Static Gallery Generation ---
         const galleryContainer = document.getElementById('static-gallery');
+        const lightbox = document.getElementById('brutalist-lightbox');
+        const blImg = document.getElementById('bl-img');
+        const blClose = document.getElementById('bl-close');
 
         slides.forEach((slide) => {
             const slideDiv = document.createElement('div');
             slideDiv.className = 'seq-slide';
+            slideDiv.style.cursor = 'pointer';
+            
+            slideDiv.addEventListener('click', () => {
+                blImg.src = slide.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Lock scroll
+            });
             
             const imgDiv = document.createElement('div');
             imgDiv.className = 'seq-image';
@@ -471,6 +528,18 @@
             slideDiv.appendChild(imgDiv);
             slideDiv.appendChild(textDiv);
             galleryContainer.appendChild(slideDiv);
+        });
+
+        // Lightbox Close Logic
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { blImg.src = ''; }, 400);
+        }
+        
+        blClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target !== blImg) closeLightbox();
         });
 
         // Custom Cursor Logic
