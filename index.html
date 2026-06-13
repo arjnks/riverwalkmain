@@ -7,9 +7,8 @@
     <meta name="description" content="Riverwalk Convention Centre Cinematic Intro Sequence.">
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- GSAP Core & ScrollTrigger -->
+    <!-- GSAP Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
     <style>
         body, html {
@@ -111,40 +110,35 @@
             z-index: 5;
         }
 
-        /* 2. Pinned Sequence */
-        #pinned-section {
+        /* 2. Static Gallery Stack */
+        #static-gallery {
+            width: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .seq-slide {
             position: relative;
             width: 100vw;
             height: 100svh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #000;
             overflow: hidden;
-        }
-
-        .seq-slide {
-            position: absolute;
-            inset: 0; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .seq-image {
             position: absolute;
-            z-index: 5;
-            width: 100vw;
-            height: 100svh; 
+            inset: 0;
             background-size: cover;
             background-position: center;
-            pointer-events: none;
-            will-change: opacity, transform;
+            z-index: 1;
         }
 
         .seq-text {
-            position: absolute;
+            position: relative;
             z-index: 10;
             font-family: 'Playfair Display', serif; 
             font-size: clamp(3rem, 7vw, 8rem);
@@ -156,7 +150,6 @@
             pointer-events: none;
             mix-blend-mode: difference;
             white-space: nowrap;
-            will-change: opacity, transform;
         }
 
         #coming-soon-container {
@@ -352,8 +345,8 @@
         <div class="razor-line-container"><div class="razor-line" id="razor-line"></div></div>
     </div>
 
-    <!-- 2. SCROLL SEQUENCE -->
-    <div id="pinned-section">
+    <!-- 2. STATIC GALLERY STACK -->
+    <div id="static-gallery">
         <!-- Slides dynamically injected here -->
     </div>
 
@@ -373,116 +366,8 @@
     </div>
     
     <script>
-        gsap.registerPlugin(ScrollTrigger);
-        ScrollTrigger.config({ 
-            ignoreMobileResize: true,
-            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load" // Brutally forces GSAP to ignore all resizes (including keyboards)
-        });
-
-        // Global Slides Array
-        const slides = [
-            { src: 'assets/river_walk_events-leo_group-pages-1_p1.webp', name: 'Main Entrance' },
-            { src: 'assets/river_walk_events-leo_group-pages-2_p1.webp', name: 'Garden Pathway' },
-            { src: 'assets/river_walk_events-leo_group-pages-3_p1.webp', name: 'Front Driveway' },
-            { src: 'assets/river_walk_events-leo_group-pages-4_p1.webp', name: 'Event Hall Facade' },
-            { src: 'assets/river_walk_events-leo_group-pages-5_p1.webp', name: 'Garden Lounge' },
-            { src: 'assets/river_walk_events-leo_group-pages-6_p1.webp', name: 'Side Entrance' },
-            { src: 'assets/river_walk_events-leo_group-pages-7_p1.webp', name: 'Garden Lounge & Reception Wing' },
-            { src: 'assets/river_walk_events-leo_group-pages-8_p1.webp', name: 'Outdoor Parking Court' }
-        ];
-
-        // --- 1. Brutalist Intro Animations ---
-        
-        // Setup Intro Ambient Slideshow
-        const introSlideshowContainer = document.getElementById('intro-slideshow');
-        slides.forEach((slide) => {
-            const slideDiv = document.createElement('div');
-            slideDiv.className = 'intro-slide';
-            slideDiv.style.backgroundImage = `url('${slide.src}')`;
-            introSlideshowContainer.appendChild(slideDiv);
-        });
-
-        const introSlideElements = document.querySelectorAll('.intro-slide');
-        if (introSlideElements.length > 0) {
-            gsap.set(introSlideElements[0], { opacity: 1 });
-            const ambientTl = gsap.timeline({ repeat: -1 });
-
-            for(let i=0; i<introSlideElements.length; i++) {
-                const current = introSlideElements[i];
-                const next = introSlideElements[(i + 1) % introSlideElements.length];
-                
-                // Keep current on screen for 4s while it slowly scales
-                ambientTl.fromTo(current, { scale: 1 }, { scale: 1.05, duration: 4, ease: "none" }, `ambient${i}`);
-                
-                // At 3s, fade in the next one over 1s
-                ambientTl.to(next, { opacity: 1, duration: 1, ease: "power1.inOut" }, `ambient${i}+=3`);
-                
-                // Reset current opacity after next is fully visible
-                ambientTl.set(current, { opacity: 0 });
-            }
-        }
-        
-        // Wrap logo text in individual characters
-        const brandText = document.getElementById('brand-text');
-        const textStr = brandText.innerText;
-        brandText.innerHTML = '';
-        textStr.split('').forEach(char => {
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char';
-            charSpan.innerHTML = char === ' ' ? '&nbsp;' : char;
-            brandText.appendChild(charSpan);
-        });
-
-        // Scramble Decoder for Micro Text
-        function scrambleText(element) {
-            const targetHTML = element.innerHTML;
-            const chars = '!<>-_\\\\/[]{}—=+*^?#_';
-            let iteration = 0;
-            const cleanText = targetHTML.replace(/<br>/g, '\n');
-            const total = cleanText.length;
-            
-            const interval = setInterval(() => {
-                element.innerText = cleanText.split('').map((letter, index) => {
-                    if(index < iteration) {
-                        return cleanText[index];
-                    }
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join('');
-                
-                element.innerHTML = element.innerText.replace(/\n/g, '<br>');
-                
-                if(iteration >= total) {
-                    clearInterval(interval);
-                    element.innerHTML = targetHTML; 
-                }
-                iteration += 1; // Faster decoding
-            }, 15); // Faster interval
-        }
-
-        scrambleText(document.getElementById('micro-1'));
-        scrambleText(document.getElementById('micro-2'));
-
-        // Master Intro Timeline
-        const introAnim = gsap.timeline();
-        introAnim.fromTo('.char', {
-            y: 50,
-            opacity: 0
-        }, {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.03,
-            ease: "expo.out"
-        })
-        .to('#razor-line', {
-            scaleY: 1,
-            duration: 1,
-            ease: "power3.inOut"
-        }, "-=0.6");
-
-        // --- 2. Cinematic Scroll Sequence ---
-
-        const container = document.getElementById('pinned-section');
+        // --- 2. Static Gallery Generation ---
+        const galleryContainer = document.getElementById('static-gallery');
 
         slides.forEach((slide) => {
             const slideDiv = document.createElement('div');
@@ -498,87 +383,8 @@
             
             slideDiv.appendChild(imgDiv);
             slideDiv.appendChild(textDiv);
-            container.appendChild(slideDiv);
+            galleryContainer.appendChild(slideDiv);
         });
-
-        const slideElements = document.querySelectorAll('.seq-slide');
-        const comingSoonContainer = document.getElementById('coming-soon-container');
-
-        // Initial setup: only the first slide is visible
-        gsap.set(slideElements[0], { opacity: 1 });
-
-        // Intro Parallax Effect (slides up slower than scroll)
-        gsap.to('.cs-brand', {
-            y: -150,
-            opacity: 0,
-            ease: "none",
-            scrollTrigger: {
-                trigger: "#intro-section",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: "#pinned-section",
-                start: "top top",
-                end: `+=${slides.length * 400}%`, // Massively increased scroll distance for slower transitions
-                pin: true,
-                scrub: 1
-            }
-        });
-
-        // Loop through slides and create the transitions WITH BLACKOUT GAPS
-        for (let i = 0; i < slideElements.length - 1; i++) {
-            const img = slideElements[i].querySelector('.seq-image');
-            
-            // Image starts small and scales up to fill the screen
-            tl.fromTo(img, 
-                { scale: 0.4, borderRadius: "100px" }, 
-                { scale: 1.0, borderRadius: "0px", duration: 0.8, ease: "power2.inOut" }, 
-                `phase${i}`
-            );
-
-            // Continuous slow zoom after filling screen
-            tl.to(img, { scale: 1.1, duration: 1.2, ease: "none" }, `phase${i}+=0.8`);
-
-            // Fast B&W to Color transition (reaches full color before fade out)
-            tl.fromTo(img, 
-                { filter: 'grayscale(100%)' }, 
-                { filter: 'grayscale(0%)', duration: 0.8, ease: "none" }, 
-                `phase${i}`
-            );
-
-            // Transition: Current slide fades out to pure black
-            tl.to(slideElements[i], { opacity: 0, duration: 1, ease: "power1.inOut" }, `phase${i}+=1`)
-              // Black void gap (no image visible)
-              .to({}, { duration: 0.5 })
-              // Next slide fades in from black
-              .to(slideElements[i+1], { opacity: 1, duration: 1, ease: "power1.inOut" });
-        }
-
-        // Final Transition: Last slide fades out, Coming Soon fades in
-        const lastIndex = slideElements.length - 1;
-        const lastImg = slideElements[lastIndex].querySelector('.seq-image');
-        
-        tl.fromTo(lastImg, 
-            { scale: 0.4, borderRadius: "100px" }, 
-            { scale: 1.0, borderRadius: "0px", duration: 0.8, ease: "power2.inOut" }, 
-            `phase${lastIndex}`
-        );
-        
-        tl.to(lastImg, { scale: 1.1, duration: 1.2, ease: "none" }, `phase${lastIndex}+=0.8`);
-
-        tl.fromTo(lastImg, 
-            { filter: 'grayscale(100%)' }, 
-            { filter: 'grayscale(0%)', duration: 0.8, ease: "none" }, 
-            `phase${lastIndex}`
-        );
-
-        tl.to(slideElements[lastIndex], { opacity: 0, duration: 1, ease: "power1.inOut" }, `phase${lastIndex}+=1`)
-          .to({}, { duration: 0.5 }); // Final black void gap
 
         // Custom Cursor Logic
         const cursorDot = document.getElementById('cursor-dot');
