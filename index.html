@@ -366,6 +366,107 @@
     </div>
     
     <script>
+        // Global Slides Array
+        const slides = [
+            { src: 'assets/river_walk_events-leo_group-pages-1_p1.webp', name: 'Main Entrance' },
+            { src: 'assets/river_walk_events-leo_group-pages-2_p1.webp', name: 'Garden Pathway' },
+            { src: 'assets/river_walk_events-leo_group-pages-3_p1.webp', name: 'Front Driveway' },
+            { src: 'assets/river_walk_events-leo_group-pages-4_p1.webp', name: 'Event Hall Facade' },
+            { src: 'assets/river_walk_events-leo_group-pages-5_p1.webp', name: 'Garden Lounge' },
+            { src: 'assets/river_walk_events-leo_group-pages-6_p1.webp', name: 'Side Entrance' },
+            { src: 'assets/river_walk_events-leo_group-pages-7_p1.webp', name: 'Garden Lounge & Reception Wing' },
+            { src: 'assets/river_walk_events-leo_group-pages-8_p1.webp', name: 'Outdoor Parking Court' }
+        ];
+
+        // --- 1. Brutalist Intro Animations ---
+        
+        // Setup Intro Ambient Slideshow
+        const introSlideshowContainer = document.getElementById('intro-slideshow');
+        slides.forEach((slide) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'intro-slide';
+            slideDiv.style.backgroundImage = `url('${slide.src}')`;
+            introSlideshowContainer.appendChild(slideDiv);
+        });
+
+        const introSlideElements = document.querySelectorAll('.intro-slide');
+        if (introSlideElements.length > 0) {
+            gsap.set(introSlideElements[0], { opacity: 1 });
+            const ambientTl = gsap.timeline({ repeat: -1 });
+
+            for(let i=0; i<introSlideElements.length; i++) {
+                const current = introSlideElements[i];
+                const next = introSlideElements[(i + 1) % introSlideElements.length];
+                
+                // Keep current on screen for 4s while it slowly scales
+                ambientTl.fromTo(current, { scale: 1 }, { scale: 1.05, duration: 4, ease: "none" }, `ambient${i}`);
+                
+                // At 3s, fade in the next one over 1s
+                ambientTl.to(next, { opacity: 1, duration: 1, ease: "power1.inOut" }, `ambient${i}+=3`);
+                
+                // Reset current opacity after next is fully visible
+                ambientTl.set(current, { opacity: 0 });
+            }
+        }
+        
+        // Wrap logo text in individual characters
+        const brandText = document.getElementById('brand-text');
+        const textStr = brandText.innerText;
+        brandText.innerHTML = '';
+        textStr.split('').forEach(char => {
+            const charSpan = document.createElement('span');
+            charSpan.className = 'char';
+            charSpan.innerHTML = char === ' ' ? '&nbsp;' : char;
+            brandText.appendChild(charSpan);
+        });
+
+        // Scramble Decoder for Micro Text
+        function scrambleText(element) {
+            const targetHTML = element.innerHTML;
+            const chars = '!<>-_\\\\/[]{}—=+*^?#_';
+            let iteration = 0;
+            const cleanText = targetHTML.replace(/<br>/g, '\n');
+            const total = cleanText.length;
+            
+            const interval = setInterval(() => {
+                element.innerText = cleanText.split('').map((letter, index) => {
+                    if(index < iteration) {
+                        return cleanText[index];
+                    }
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join('');
+                
+                element.innerHTML = element.innerText.replace(/\n/g, '<br>');
+                
+                if(iteration >= total) {
+                    clearInterval(interval);
+                    element.innerHTML = targetHTML; 
+                }
+                iteration += 1; // Faster decoding
+            }, 15); // Faster interval
+        }
+
+        scrambleText(document.getElementById('micro-1'));
+        scrambleText(document.getElementById('micro-2'));
+
+        // Master Intro Timeline
+        const introAnim = gsap.timeline();
+        introAnim.fromTo('.char', {
+            y: 50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.03,
+            ease: "expo.out"
+        })
+        .to('#razor-line', {
+            scaleY: 1,
+            duration: 1,
+            ease: "power3.inOut"
+        }, "-=0.6");
+
         // --- 2. Static Gallery Generation ---
         const galleryContainer = document.getElementById('static-gallery');
 
