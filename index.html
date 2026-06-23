@@ -7,8 +7,9 @@
     <meta name="description" content="Riverwalk Convention Centre Cinematic Intro Sequence.">
     <link rel="stylesheet" href="css/style.css">
     
-    <!-- GSAP Core -->
+    <!-- GSAP Core & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     
     <style>
         body, html {
@@ -153,6 +154,7 @@
             background-size: cover;
             background-position: center;
             z-index: 1;
+            will-change: transform;
         }
 
         .seq-text {
@@ -520,6 +522,29 @@
             slideDiv.appendChild(imgDiv);
             slideDiv.appendChild(textDiv);
             galleryContainer.appendChild(slideDiv);
+        });
+
+        // --- 3. Brutal Compression Scroll Physics ---
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const generatedSlides = document.querySelectorAll('.seq-slide');
+        generatedSlides.forEach((slide) => {
+            const img = slide.querySelector('.seq-image');
+            
+            // Physically crush the image from 1.15x down to 1.0x as user scrolls it into view
+            gsap.fromTo(img, 
+                { scale: 1.15 },
+                {
+                    scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: slide,
+                        start: "top bottom", // Animation starts when top of slide enters bottom of screen
+                        end: "top top",      // Finishes exactly when slide hits top of screen
+                        scrub: true
+                    }
+                }
+            );
         });
 
         // Lightbox Close Logic
