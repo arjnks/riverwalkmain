@@ -530,9 +530,7 @@
         }
         
         blClose.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', (e) => {
-            if (e.target !== blImg) closeLightbox();
-        });
+        lightbox.addEventListener('click', closeLightbox);
 
         // Custom Cursor Logic
         const cursorDot = document.getElementById('cursor-dot');
