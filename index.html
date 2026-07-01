@@ -34,10 +34,10 @@
 
         .cs-brand-img {
             width: 80vw;
-            max-width: 600px;
+            max-width: 650px;
             z-index: 10;
             will-change: transform, opacity, filter;
-            /* If the PNG is black, you might need: filter: invert(1); */
+            mix-blend-mode: screen;
         }
 
         .cs-brand-container {
@@ -492,11 +492,11 @@
         introAnim.fromTo('#brand-img', {
             scale: 1.05,
             opacity: 0,
-            filter: "brightness(0) invert(1) blur(20px)"
+            filter: "invert(1) blur(20px)"
         }, {
             scale: 1,
             opacity: 1,
-            filter: "brightness(0) invert(1) blur(0px)",
+            filter: "invert(1) blur(0px)",
             duration: 2.5,
             ease: "expo.out"
         })
