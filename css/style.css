@@ -2,15 +2,15 @@
    Awwwards Extreme Aesthetic Stylesheet
    ========================================================================== */
 
-   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 
    :root {
-       /* Ultra Dark Theme */
-       --primary: #0a0a0a;
-       --accent: #79989A; /* Oxidized Copper */
-       --bg-light: #111111;
-       --text: #f0f0f0;
-       --text-light: #888888;
+       /* Earthy Heritage Theme */
+       --primary: #F9F6F0; /* Warm Alabaster */
+       --accent: #C5A880; /* Champagne Gold / Copper */
+       --bg-light: #FFFFFF;
+       --text: #2C3E35; /* Dark Forest Green */
+       --text-light: #5A6B62;
        --white: #ffffff;
        --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
    }
