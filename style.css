@@ -27,7 +27,7 @@
   a{color:inherit; text-decoration:none;}
   .serif{font-family:'Cormorant Garamond',serif;}
   .eyebrow{
-    font-family:'JetBrains Mono', monospace;
+    font-family:'Mulish', sans-serif;
     font-size:0.72rem;
     letter-spacing:0.18em;
     text-transform:uppercase;
@@ -67,7 +67,7 @@
   }
   .brand{display:flex; align-items:center; gap:12px; font-family:'Cormorant Garamond',serif; font-size:1.72rem; font-weight:500; color:#fff; letter-spacing:.01em;}
   header.solid .brand{color:var(--ink);}
-  .brand small{display:block; font-style:normal; font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,0.82); margin-top:3px;}
+  .brand small{display:block; font-style:normal; font-family:'Mulish',sans-serif; font-size:0.66rem; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,0.82); margin-top:3px;}
   @media (max-width:520px){ .brand{font-size:1.4rem;} .brand small{font-size:0.56rem;} }
   header.solid .brand small{color:var(--moss);}
   nav.links{display:flex; gap:34px; align-items:center;}
@@ -141,7 +141,7 @@
 
   .scroll-cue{
     position:absolute; right:40px; bottom:40px; z-index:2; color:#fff; writing-mode:vertical-rl;
-    font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:.18em; display:flex; align-items:center; gap:10px;
+    font-family:'Mulish',sans-serif; font-size:0.68rem; letter-spacing:.18em; display:flex; align-items:center; gap:10px;
   }
   .scroll-cue::after{content:''; width:1px; height:46px; background:rgba(255,255,255,0.5);}
   @media (max-width:700px){ .scroll-cue{display:none;} }
@@ -156,7 +156,7 @@
     font-family:'Cormorant Garamond',serif; font-size:clamp(1.9rem,3.4vw,2.7rem); color:var(--brass-light); font-weight:500; line-height:1;
   }
   .stat-label{
-    font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:.1em; text-transform:uppercase;
+    font-family:'Mulish',sans-serif; font-size:0.68rem; letter-spacing:.1em; text-transform:uppercase;
     color:rgba(246,241,230,0.72); margin-top:10px; line-height:1.5;
   }
 
@@ -196,13 +196,13 @@
   @media (max-width:880px){ .halls-grid{grid-template-columns:1fr;} }
   @media (min-width:881px){ .hall-card:nth-child(4), .hall-card:nth-child(5){ grid-column:span 1; } .hall-card:nth-child(4){ grid-column:1 / 2; } }
   .hall-card{background:var(--stone); padding:44px 36px; position:relative;}
-  .hall-index{font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--brass-light); letter-spacing:.1em;}
+  .hall-index{font-family:'Mulish',sans-serif; font-size:0.72rem; color:var(--brass-light); letter-spacing:.1em;}
   .hall-card h3{
     font-family:'Cormorant Garamond',serif; font-size:1.8rem; margin:18px 0 14px; font-weight:500; letter-spacing:.01em;
   }
   .hall-card p{color:rgba(246,241,230,0.68); font-size:0.94rem; margin-bottom:22px;}
   .hall-meta{display:flex; gap:22px; padding-top:20px; border-top:1px solid var(--line-on-dark);}
-  .hall-meta div{font-family:'JetBrains Mono',monospace;}
+  .hall-meta div{font-family:'Mulish',sans-serif;}
   .hall-meta .n{color:var(--brass-light); font-size:1.05rem; display:block;}
   .hall-meta .l{font-size:0.62rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(246,241,230,0.55);}
   .hall-svg{margin-top:10px; opacity:0.85;}
@@ -228,14 +228,14 @@
   .garden-strip figcaption{
     position:absolute; left:0; bottom:0; right:0; padding:24px 28px;
     background:linear-gradient(0deg, rgba(15,20,14,0.7), transparent);
-    color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:.08em; text-transform:uppercase;
+    color:#fff; font-family:'Mulish',sans-serif; font-size:0.72rem; letter-spacing:.08em; text-transform:uppercase;
   }
 
   /* ---------- gallery ---------- */
   .gal-toggle{display:flex; gap:0; margin-bottom:18px; border:1px solid var(--line); border-radius:2px;
               width:max-content; overflow:hidden;}
   .gal-tab{background:none; border:none; cursor:pointer; padding:13px 26px;
-           font-family:'JetBrains Mono',monospace; font-size:0.74rem; letter-spacing:.1em;
+           font-family:'Mulish',sans-serif; font-size:0.74rem; letter-spacing:.1em;
            text-transform:uppercase; color:rgba(28,42,32,0.6); transition:background .25s ease, color .25s ease;}
   .gal-tab + .gal-tab{border-left:1px solid var(--line);}
   .gal-tab:hover{color:var(--ink);}
@@ -244,7 +244,7 @@
   .gallery-grid figcaption{
     position:absolute; left:0; right:0; bottom:0; padding:18px 20px;
     background:linear-gradient(0deg, rgba(15,20,14,0.82), transparent);
-    color:rgba(255,255,255,0.92); font-family:'JetBrains Mono',monospace;
+    color:rgba(255,255,255,0.92); font-family:'Mulish',sans-serif;
     font-size:0.62rem; letter-spacing:.08em; text-transform:uppercase; line-height:1.5;
   }
   .gallery-grid{
@@ -280,14 +280,14 @@
   .enq-info p{color:rgba(28,42,32,0.72); margin-bottom:28px;}
   .enq-contact{display:flex; flex-direction:column; gap:18px; margin-top:10px;}
   .enq-contact div{border-top:1px solid var(--line); padding-top:16px;}
-  .enq-contact .l{font-family:'JetBrains Mono',monospace; font-size:0.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--moss);}
+  .enq-contact .l{font-family:'Mulish',sans-serif; font-size:0.64rem; letter-spacing:.1em; text-transform:uppercase; color:var(--moss);}
   .enq-contact .v{font-size:1.02rem; margin-top:6px;}
 
   form{display:flex; flex-direction:column; gap:20px;}
   .form-row{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
   @media (max-width:560px){ .form-row{grid-template-columns:1fr;} }
   label{
-    font-family:'JetBrains Mono',monospace; font-size:0.64rem; letter-spacing:.08em; text-transform:uppercase;
+    font-family:'Mulish',sans-serif; font-size:0.64rem; letter-spacing:.08em; text-transform:uppercase;
     color:var(--moss); margin-bottom:8px; display:block;
   }
   input, select, textarea{
@@ -300,7 +300,7 @@
   .field{display:flex; flex-direction:column;}
   .submit-btn{
     align-self:flex-start; margin-top:10px; background:var(--ink); color:var(--cream); border:none;
-    padding:16px 34px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; letter-spacing:.06em; text-transform:uppercase;
+    padding:16px 34px; font-family:'Mulish',sans-serif; font-size:0.8rem; letter-spacing:.06em; text-transform:uppercase;
     cursor:pointer; border-radius:2px; transition:background .3s ease;
   }
   .submit-btn:hover{background:var(--terracotta);}
@@ -311,7 +311,7 @@
   @media (max-width:800px){ .foot-top{grid-template-columns:1fr 1fr; row-gap:36px;} }
   .foot-brand .brand{color:var(--cream);}
   .foot-brand p{margin-top:16px; max-width:280px; font-size:0.9rem; color:rgba(246,241,230,0.55);}
-  footer h4{font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--brass-light); margin-bottom:16px;}
+  footer h4{font-family:'Mulish',sans-serif; font-size:0.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--brass-light); margin-bottom:16px;}
   footer ul{list-style:none; display:flex; flex-direction:column; gap:10px; font-size:0.9rem;}
   footer ul a:hover{color:var(--cream);}
   .foot-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:26px; font-size:0.78rem; color:rgba(246,241,230,0.45); flex-wrap:wrap; gap:12px;}
@@ -354,7 +354,7 @@
 .door-inner h3{font-family:'Cormorant Garamond',serif; font-weight:400; font-size:1.55rem;
                line-height:1.2; margin-bottom:14px;}
 .door-inner p{font-size:0.95rem; color:rgba(246,241,230,0.82); max-width:400px; margin-bottom:20px;}
-.door-cta{font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:.14em;
+.door-cta{font-family:'Mulish',sans-serif; font-size:0.7rem; letter-spacing:.14em;
           text-transform:uppercase; color:var(--brass-light);}
 
 /* ---------- how a wedding moves ---------- */
@@ -373,7 +373,7 @@ header.solid .links a.active{color:var(--brass);}
 /* ---------- virtual tour placeholder ---------- */
 .tour-frame{margin-top:44px; border:1px dashed rgba(246,241,230,0.28); border-radius:2px;
             min-height:340px; display:flex; align-items:center; justify-content:center;}
-.tour-frame span{font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:.16em;
+.tour-frame span{font-family:'Mulish',sans-serif; font-size:0.72rem; letter-spacing:.16em;
                  text-transform:uppercase; color:rgba(246,241,230,0.45);}
 
 /* ---------- testimonials carousel ---------- */
@@ -388,7 +388,7 @@ header.solid .links a.active{color:var(--brass);}
           color:var(--cream); max-width:780px; margin-bottom:26px;}
 .tslide cite{font-style:normal; display:flex; flex-direction:column; gap:5px;}
 .tslide .tname{font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--brass-light);}
-.tslide .tmeta{font-family:'JetBrains Mono',monospace; font-size:0.66rem;
+.tslide .tmeta{font-family:'Mulish',sans-serif; font-size:0.66rem;
                letter-spacing:.13em; text-transform:uppercase; color:rgba(246,241,230,0.5);}
 .tcar-nav{display:flex; align-items:center; gap:18px; margin-top:44px;
           border-top:1px solid rgba(246,241,230,0.16); padding-top:22px;}
@@ -397,7 +397,7 @@ header.solid .links a.active{color:var(--brass);}
           border:1px solid rgba(246,241,230,0.3); transition:background .25s ease, border-color .25s ease;}
 .tcar-btn:hover{background:rgba(246,241,230,0.1); border-color:var(--brass-light);}
 .tcar-btn:focus-visible{outline:2px solid var(--brass-light); outline-offset:3px;}
-.tcar-count{font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+.tcar-count{font-family:'Mulish',sans-serif; font-size:0.7rem;
             letter-spacing:.13em; color:rgba(246,241,230,0.55);}
 @media (prefers-reduced-motion:reduce){ .tcar-track{transition:none;} }
 
