@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Riverwalk — The Sequence</title>
+    <meta name="description" content="Riverwalk Convention Centre Cinematic Intro Sequence.">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- GSAP Core & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background: var(--primary, #F9F6F0);
+            cursor: none; 
+            font-family: 'Mulish', sans-serif;
+        }
+
+        #intro-section {
+            position: relative;
+            width: 100vw;
+            height: 100svh;
+            background: var(--primary, #F9F6F0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .cs-brand-img {
+            width: 80vw;
+            max-width: 650px;
+            z-index: 10;
+            will-change: transform, opacity, filter;
+            mix-blend-mode: screen;
+        }
+
+        .cs-brand-container {
+            z-index: 10;
+            mix-blend-mode: screen;
+        }
+
+        /* Tactical Header */
+        #tactical-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            box-sizing: border-box;
+            z-index: 1000;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--text, #2C3E35);
+            background: linear-gradient(to bottom, rgba(249,246,240,0.9) 0%, rgba(249,246,240,0) 100%);
+            pointer-events: none;
+        }
+
+        .th-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .th-link {
+            cursor: pointer;
+            pointer-events: auto;
+            text-decoration: none;
+            background: var(--accent, #C5A880);
+            color: #000;
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 4px 25px rgba(197, 168, 128, 0.35);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        .th-link:hover {
+            transform: scale(1.05) translateY(-2px);
+            background: #fff;
+            color: #000;
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .razor-line-container {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 1px;
+            height: 120px;
+            background: rgba(0,0,0,0.05);
+            transform: translateX(-50%);
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .razor-line {
+            width: 100%;
+            height: 100%;
+            background: var(--accent, #C5A880);
+            transform-origin: top;
+            transform: scaleY(0);
+            will-change: transform;
+        }
+
+        /* Ambient Background Slideshow */
+        #intro-slideshow {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        .intro-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            will-change: opacity, transform;
+        }
+
+        #intro-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(249, 246, 240, 0.15); /* Light earthy overlay */
+            z-index: 5;
+        }
+
+        /* 2. Static Gallery Stack */
+        #static-gallery {
+            width: 100%;
+            background: var(--primary, #F9F6F0);
+            display: block;
+        }
+
+        .seq-slide {
+            position: relative;
+            width: 100vw;
+            height: 100svh;
+            display: flex;
+            padding: 5vh 5vw;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transform: translateZ(0); /* Hardware acceleration for sticky */
+        }
+
+        .seq-image {
+            position: absolute;
+            inset: 5vh 5vw;
+            border-radius: 6px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            background-size: cover;
+            background-position: center;
+            z-index: 1;
+            will-change: transform;
+        }
+
+        .seq-text {
+            position: relative;
+            z-index: 10;
+            font-family: 'Cormorant Garamond', serif; 
+            font-size: clamp(3rem, 7vw, 8rem);
+            color: var(--primary, #F9F6F0); /* Warm Alabaster for readability over dark photos */
+            text-align: center;
+            font-style: italic;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            pointer-events: none;
+            padding: 0 20px;
+            text-shadow: 0 8px 40px rgba(0,0,0,0.8), 0 2px 10px rgba(0,0,0,0.9);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), text-shadow 0.4s ease, color 0.4s ease;
+        }
+
+        /* Clean Luxury Hover */
+        .seq-slide:hover .seq-text {
+            transform: scale(1.03);
+            color: #ffffff;
+            text-shadow: 0 12px 50px rgba(0,0,0,0.9), 0 4px 15px rgba(0,0,0,0.95);
+        }
+
+        .view-indicator {
+            position: absolute;
+            bottom: calc(5vh + 30px);
+            right: calc(5vw + 30px);
+            z-index: 15;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--accent, #C5A880);
+            color: var(--text, #2C3E35);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            opacity: 0.8;
+            transform: translateY(0);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .seq-slide:hover .view-indicator {
+            opacity: 1;
+            background: var(--accent, #C5A880);
+            color: #000;
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(197, 168, 128, 0.5);
+        }
+
+        /* Brutalist Lightbox */
+        #brutalist-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary, #F9F6F0);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        #brutalist-lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #bl-img {
+            max-width: 100vw;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+
+        #bl-close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            color: var(--text, #2C3E35);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            z-index: 10;
+            mix-blend-mode: difference;
+        }
+
+        #coming-soon-container {
+            position: relative;
+            width: 100vw;
+            min-height: 100svh;
+            height: auto;
+            padding-bottom: 40vh; /* Critical: Gives the browser enough room to scroll the form up when the keyboard opens */
+            background: var(--primary, #F9F6F0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+
+        #coming-soon-giant {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 15vw, 15rem);
+            color: var(--accent, #C5A880);
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .cs-footer {
+            display: flex;
+            justify-content: center;
+            width: 80%;
+            max-width: 1200px;
+            margin-top: 5vh;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 2rem;
+            pointer-events: auto; /* allow clicks */
+        }
+
+        .cs-socials-centered {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .cs-footer a {
+            font-family: 'Mulish', sans-serif;
+            font-size: 14px;
+            color: var(--text, #2C3E35);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+            text-transform: uppercase;
+        }
+
+        .cs-footer a:hover {
+            color: var(--accent, #C5A880);
+        }
+
+        .whatsapp-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 25px 50px;
+            font-family: 'Mulish', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
+            text-align: center;
+            width: 80%;
+            max-width: 450px;
+            margin-top: 4vh;
+            pointer-events: auto;
+        }
+
+        .whatsapp-btn:hover {
+            background: var(--accent, #C5A880);
+            transform: translateY(-5px);
+        }
+
+        /* Tactical Header Mobile Optimization */
+        @media (max-width: 768px) {
+            #tactical-header {
+                padding: 15px 10px;
+                font-size: 7px;
+            }
+            .th-link {
+                padding: 8px 16px;
+                font-size: 9px;
+                letter-spacing: 1px;
+            }
+        }
+
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent, #C5A880);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+        }
+
+        .cursor-outline {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--accent, #C5A880);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            body, html {
+                cursor: auto;
+            }
+            .cursor-dot, .cursor-outline {
+                display: none !important;
+            }
+            .view-indicator {
+                bottom: 25px;
+                right: 20px;
+                padding: 8px 14px;
+                font-size: 9px;
+                opacity: 0.95;
+                background: rgba(255, 255, 255, 0.95);
+            }
+            .cs-footer {
+                width: 95%;
+            }
+            .cs-socials-centered {
+                gap: 15px;
+                font-size: 10px;
+            }
+            .whatsapp-btn {
+                padding: 15px 10px;
+                font-size: 10px;
+                letter-spacing: 2px;
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="tactical-header">
+        <div class="th-item" id="th-time">[ --:-- -- ]</div>
+        <div class="th-item" id="th-temp">[ --°C THRISSUR ]</div>
+        <div class="th-item"><a href="https://wa.me/917736728416?text=Hi%2C%20I%27m%20interested%20in%20Leo%20Convention%20Centre" target="_blank" class="th-link">[ INITIATE INQUIRY ]</a></div>
+    </header>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- 1. INTRO LANDING PAGE -->
+    <div id="intro-section">
+        <div id="intro-slideshow"></div>
+        <div id="intro-overlay"></div>
+        <div class="cs-brand-container">
+            <img src="riverwalkpng.png" class="cs-brand-img" id="brand-img" alt="Riverwalk">
+        </div>
+        <div class="razor-line-container"><div class="razor-line" id="razor-line"></div></div>
+    </div>
+
+    <!-- 2. STATIC GALLERY STACK -->
+    <div id="static-gallery">
+        <!-- Slides dynamically injected here -->
+    </div>
+
+    <!-- 3. FOOTER / CONTACT SECTION -->
+    <div id="coming-soon-container">
+        <div id="coming-soon-giant">Coming Soon</div>
+        
+        <button class="whatsapp-btn" onclick="window.open('https://wa.me/917736728416?text=Hi%2C%20I%27m%20interested%20in%20Leo%20Convention%20Centre', '_blank')">DIRECT INQUIRY VIA WHATSAPP</button>
+
+        <div class="cs-footer">
+            <div class="cs-socials-centered">
+                <a href="#">INSTAGRAM</a>
+                <a href="#">FACEBOOK</a>
+                <a href="#">YOUTUBE</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 4. BRUTALIST LIGHTBOX -->
+    <div id="brutalist-lightbox">
+        <div id="bl-close">[ CLOSE ]</div>
+        <img id="bl-img" src="" alt="Full view">
+    </div>
+
+    <script>
+        // Tactical Header Logic
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit', hour12: true });
+            document.getElementById('th-time').innerText = `[ ${timeString} ]`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        async function fetchTemp() {
+            try {
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=10.52&longitude=76.21&current_weather=true');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                document.getElementById('th-temp').innerText = `[ ${temp}°C THRISSUR ]`;
+            } catch (e) {
+                console.error('Weather fetch failed, falling back.');
+                document.getElementById('th-temp').innerText = `[ 28°C THRISSUR ]`;
+            }
+        }
+        fetchTemp();
+
+        // Force the browser to start at the absolute top
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        const slides = [
+            { src: 'assets/river_walk_events-leo_group-pages-1_p1.webp', name: 'Main Entrance' },
+            { src: 'assets/river_walk_events-leo_group-pages-2_p1.webp', name: 'Garden Pathway' },
+            { src: 'assets/river_walk_events-leo_group-pages-3_p1.webp', name: 'Front Driveway' },
+            { src: 'assets/river_walk_events-leo_group-pages-4_p1.webp', name: 'Event Hall Facade' },
+            { src: 'assets/river_walk_events-leo_group-pages-5_p1.webp', name: 'Garden Lounge' },
+            { src: 'assets/river_walk_events-leo_group-pages-6_p1.webp', name: 'Side Entrance' },
+            { src: 'assets/river_walk_events-leo_group-pages-7_p1.webp', name: 'Garden Lounge & Reception Wing' },
+            { src: 'assets/river_walk_events-leo_group-pages-8_p1.webp', name: 'Outdoor Parking Court' }
+        ];
+
+        // --- 1. Brutalist Intro Animations ---
+        
+        // Setup Intro Ambient Slideshow
+        const introSlideshowContainer = document.getElementById('intro-slideshow');
+        slides.forEach((slide) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'intro-slide';
+            slideDiv.style.backgroundImage = `url('${slide.src}')`;
+            introSlideshowContainer.appendChild(slideDiv);
+        });
+
+        const introSlideElements = document.querySelectorAll('.intro-slide');
+        if (introSlideElements.length > 0) {
+            gsap.set(introSlideElements[0], { opacity: 1 });
+            const ambientTl = gsap.timeline({ repeat: -1 });
+
+            for(let i=0; i<introSlideElements.length; i++) {
+                const current = introSlideElements[i];
+                const next = introSlideElements[(i + 1) % introSlideElements.length];
+                
+                // Keep current on screen for 4s while it slowly scales
+                ambientTl.fromTo(current, { scale: 1 }, { scale: 1.05, duration: 4, ease: "none" }, `ambient${i}`);
+                
+                // At 3s, fade in the next one over 1s
+                ambientTl.to(next, { opacity: 1, duration: 1, ease: "power1.inOut" }, `ambient${i}+=3`);
+                
+                // Reset current opacity after next is fully visible
+                ambientTl.set(current, { opacity: 0 });
+            }
+        }
+        
+        // Master Intro Timeline
+        const introAnim = gsap.timeline();
+        introAnim.fromTo('#brand-img', {
+            scale: 1.05,
+            opacity: 0,
+            filter: "invert(1) blur(20px)"
+        }, {
+            y: 0, scale: 1,
+            opacity: 1,
+            filter: "invert(1) blur(0px)",
+            duration: 2.5,
+            ease: "expo.out"
+        })
+        .to('#razor-line', {
+            scaleY: 1,
+            duration: 1,
+            ease: "power3.inOut"
+        }, "-=0.6");
+
+        // --- 2. Static Gallery Generation ---
+        const galleryContainer = document.getElementById('static-gallery');
+        const lightbox = document.getElementById('brutalist-lightbox');
+        const blImg = document.getElementById('bl-img');
+        const blClose = document.getElementById('bl-close');
+
+        slides.forEach((slide) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'seq-slide';
+            slideDiv.style.cursor = 'pointer';
+            
+            slideDiv.addEventListener('click', () => {
+                blImg.src = slide.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Lock scroll
+            });
+            
+            const imgDiv = document.createElement('div');
+            imgDiv.className = 'seq-image';
+            imgDiv.style.backgroundImage = `url('${slide.src}')`;
+            
+            const textDiv = document.createElement('div');
+            textDiv.className = 'seq-text';
+            textDiv.innerText = slide.name;
+            
+            const viewBadge = document.createElement('div');
+            viewBadge.className = 'view-indicator';
+            viewBadge.innerHTML = '[ + ] EXPAND PHOTO';
+            
+            slideDiv.appendChild(imgDiv);
+            slideDiv.appendChild(textDiv);
+            slideDiv.appendChild(viewBadge);
+            galleryContainer.appendChild(slideDiv);
+        });
+
+        // --- 3. Brutal Compression Scroll Physics ---
+        gsap.registerPlugin(ScrollTrigger);
+        
+        const generatedSlides = document.querySelectorAll('.seq-slide');
+        generatedSlides.forEach((slide) => {
+            const img = slide.querySelector('.seq-image');
+            
+            // Physically crush the image from 1.15x down to 1.0x as user scrolls it into view
+            gsap.fromTo(img, 
+                { y: 40, scale: 1.02 },
+                {
+                    y: 0, scale: 1,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: slide,
+                        start: "top bottom", // Animation starts when top of slide enters bottom of screen
+                        end: "top top",      // Finishes exactly when slide hits top of screen
+                        scrub: true
+                    }
+                }
+            );
+        });
+
+        // Lightbox Close Logic
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { blImg.src = ''; }, 400);
+        }
+        
+        blClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', closeLightbox);
+
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        window.addEventListener('mousemove', (e) => {
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+            
+            cursorOutline.animate({
+                left: e.clientX + 'px',
+                top: e.clientY + 'px'
+            }, { duration: 500, fill: "forwards" });
+        });
+    </script>
+</body>
+</html>
