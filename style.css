@@ -436,3 +436,10 @@ header.solid .brand-logo {
   input, select, textarea { padding: 14px 16px !important; }
   .foot-top { row-gap: 24px; }
 }
+
+@media (max-width: 880px) {
+  .hero { align-items: center; }
+  .hero-content { padding-bottom: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .hero-content .eyebrow { justify-content: center; margin-bottom: 16px; }
+  .hero p.lede { margin-top: 16px; }
+}
