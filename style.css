@@ -405,15 +405,15 @@ header.solid .links a.active{color:var(--brass);}
 @media (max-width:1120px){ .links{gap:22px;} .links a{font-size:0.8rem;} }
 
 .brand-logo {
-  height: 180px;
+    height: 54px;
   width: auto;
   filter: invert(1) brightness(200%);
   transition: filter 0.4s ease, height 0.4s ease, margin 0.4s ease;
   margin-top: 12px;
 }
 header.solid .brand-logo {
-  filter: invert(0);
-  height: 60px;
+    filter: invert(0);
+    height: 40px;
   margin-top: 0;
 }
 @media (max-width:520px){ .brand-logo{height: 44px;} header.solid .brand-logo{height: 36px;} }
