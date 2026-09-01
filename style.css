@@ -416,7 +416,7 @@ header.solid .brand-logo {
   height: 60px;
   margin-top: 0;
 }
-@media (max-width:520px){ .brand-logo{height: 120px;} header.solid .brand-logo{height: 70px;} }
+@media (max-width:520px){ .brand-logo{height: 60px;} header.solid .brand-logo{height: 40px;} }
 
 /* ---------- Reveal Animations ---------- */
 .reveal {
