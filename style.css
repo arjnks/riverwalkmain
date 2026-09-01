@@ -404,18 +404,19 @@ header.solid .links a.active{color:var(--brass);}
 /* ---------- nav breathing room at mid widths ---------- */
 @media (max-width:1120px){ .links{gap:22px;} .links a{font-size:0.8rem;} }
 
-/* ---------- brand logo ---------- */
 .brand-logo {
   height: 180px;
   width: auto;
   filter: invert(1) brightness(200%);
-  transition: filter 0.4s ease;
+  transition: filter 0.4s ease, height 0.4s ease, margin 0.4s ease;
   margin-top: 12px;
 }
 header.solid .brand-logo {
   filter: invert(0);
+  height: 60px;
+  margin-top: 0;
 }
-@media (max-width:520px){ .brand-logo{height: 90px;} }
+@media (max-width:520px){ .brand-logo{height: 90px;} header.solid .brand-logo{height: 50px;} }
 
 /* ---------- Reveal Animations ---------- */
 .reveal {
