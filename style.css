@@ -402,3 +402,16 @@ header.solid .links a.active{color:var(--brass);}
 
 /* ---------- nav breathing room at mid widths ---------- */
 @media (max-width:1120px){ .links{gap:22px;} .links a{font-size:0.8rem;} }
+
+/* ---------- brand logo ---------- */
+.brand-logo {
+  height: 48px;
+  width: auto;
+  filter: invert(1) brightness(200%);
+  transition: filter 0.4s ease;
+  margin-top: 4px;
+}
+header.solid .brand-logo {
+  filter: invert(0);
+}
+@media (max-width:520px){ .brand-logo{height: 38px;} }
