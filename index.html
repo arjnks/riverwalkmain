@@ -8,7 +8,7 @@
 <meta name="description" content="A riverside convention centre outside Thrissur — five spaces, mango groves and paddy fields, up to 1,500 guests. Kuttanellur, on the Kochi–Palakkad highway (NH 544).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mulish:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -121,41 +121,7 @@
   <path d="M0,28 C120,4 220,52 340,30 C460,8 540,50 660,28 C780,6 860,50 980,28 C1080,10 1160,40 1240,26"/>
 </svg>
 
-<section class="testimonials">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow">Testimonials</div>
-      <h2 class="serif">In their <em>own words</em>.</h2>
-    </div>
-    <div class="tcar reveal" data-testimonials tabindex="0" aria-roledescription="carousel" aria-label="Client testimonials">
-      <div class="tcar-viewport">
-        <div class="tcar-track">
-        <blockquote class="tslide">
-          <p>&ldquo;The property was absolutely breathtaking. Having the river running alongside the venue gave our daughter’s wedding an incredibly serene and magical atmosphere. The staff handled a thousand guests effortlessly.&rdquo;</p>
-          <cite><span class="tname">Narayanan &amp; Sindhu</span><span class="tmeta">Wedding &middot; Thamara &amp; Haritham &middot; 2026</span></cite>
-        </blockquote>
-        <blockquote class="tslide">
-          <p>&ldquo;We hosted our annual dealer meet at the Ambal hall. The highway access was perfect for attendees driving in from Kochi and Palakkad, and the breakout sessions on the lawns were a huge hit.&rdquo;</p>
-          <cite><span class="tname">Rajeev Menon</span><span class="tmeta">Dealer meet &middot; Ambal &middot; 2026</span></cite>
-        </blockquote>
-        <blockquote class="tslide">
-          <p>&ldquo;As a planner, load-ins and logistics can be a nightmare at standard venues. River Walk’s service access and ample parking made our job so much easier. The infrastructure here is truly world-class.&rdquo;</p>
-          <cite><span class="tname">Aswathi Events</span><span class="tmeta">Wedding planner &middot; Thrissur</span></cite>
-        </blockquote>
-        <blockquote class="tslide">
-          <p>&ldquo;Travelling from Dubai, we were worried about coordinating the reception from afar. The grounds were spectacular, the venue was immaculate, and our guests couldn't stop praising the setting.&rdquo;</p>
-          <cite><span class="tname">Varun &amp; Anjali</span><span class="tmeta">Reception &middot; Haritham &middot; 2026</span></cite>
-        </blockquote>
-        </div>
-      </div>
-      <div class="tcar-nav">
-        <button class="tcar-btn" data-prev type="button" aria-label="Previous testimonial">&larr;</button>
-        <span class="tcar-count"><span data-idx>1</span>&thinsp;/&thinsp;4</span>
-        <button class="tcar-btn" data-next type="button" aria-label="Next testimonial">&rarr;</button>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section id="enquire" class="enquiry">
   <div class="wrap enq-grid">
@@ -274,24 +240,7 @@
   }, {threshold:0.2});
   document.querySelectorAll('.reveal, .river-divider').forEach(el => io.observe(el));
 
-  // testimonials carousel
-  document.querySelectorAll('[data-testimonials]').forEach(car => {
-    const track = car.querySelector('.tcar-track');
-    const slides = car.querySelectorAll('.tslide');
-    const idxOut = car.querySelector('[data-idx]');
-    let i = 0;
-    const go = n => {
-      i = (n + slides.length) % slides.length;
-      track.style.transform = 'translateX(' + (-i * 100) + '%)';
-      slides.forEach((s, k) => s.setAttribute('aria-hidden', k === i ? 'false' : 'true'));
-      if (idxOut) idxOut.textContent = i + 1;
-    };
-    car.querySelector('[data-prev]').addEventListener('click', () => go(i - 1));
-    car.querySelector('[data-next]').addEventListener('click', () => go(i + 1));
-    car.addEventListener('keydown', e => {
-      if (e.key === 'ArrowLeft') go(i - 1);
-      if (e.key === 'ArrowRight') go(i + 1);
-    });
+  
     go(0);
   });
 
